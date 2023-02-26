@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -12,7 +13,7 @@ import DTO.UserDTO;
 public class DAOuser {
 
 	Connection connector = null;
-	
+	ArrayList<UserDTO> list = new ArrayList<>();
 	public ResultSet authUser(UserDTO objUserDTO) 
 	{
 		
@@ -52,5 +53,33 @@ public class DAOuser {
 			}
 		}
 			
+		
+		public 	ArrayList<UserDTO> listAllUsers() {
+			String sql = "Select * from dblogin";
+			connector = new DAOconnector().DBConnection();
+
+			
+			try {
+				PreparedStatement pstm = connector.prepareStatement(sql);
+				ResultSet rs = pstm.executeQuery();
+				
+				while(rs.next()) {
+					UserDTO objUserDTO = new UserDTO();
+					objUserDTO.setIdUser(rs.getInt("id"));
+					objUserDTO.setUserUsername(rs.getString("username"));
+					list.add(objUserDTO);
+				}
+
+			} catch (SQLException error) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(null, "DAOuser"+error);
+			}
+			return list;
+		}
+		
+		
+		
+		
+		
 	}
 
