@@ -78,6 +78,7 @@ String column[]={"ID","NAME","SALARY"};
 			model.setNumRows(0);
 			
 			ArrayList<UserDTO> list = objDAOuser.listAllUsers();
+			
 			for(int i=0; i<list.size(); i++)
 			{
 				model.addRow(new Object[] {
