@@ -5,13 +5,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import DAO.DAOuser;
 import DTO.UserDTO;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
@@ -20,8 +24,8 @@ public class front {
 	private JFrame frame;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
-	UserDTO objUser = new UserDTO();
-
+	UserDTO objUserDAO = new UserDTO();
+	DAOuser objDAOuser = new DAOuser();
 
 	/**
 	 * Launch the application.
@@ -66,22 +70,26 @@ public class front {
 		lblNewLabel_1.setBounds(43, 117, 46, 14);
 		panel.add(lblNewLabel_1);
 		
-		JButton btnNewButton = new JButton("SIGN UP");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton buttonSignUP = new JButton("SIGN UP");
+		buttonSignUP.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
+				
+				SignUP windowRegister = new SignUP();
+				windowRegister.frame.setVisible(true);
+				frame.dispose();
+				
+				
 			}
 		});
-		btnNewButton.setBounds(162, 211, 89, 23);
-		panel.add(btnNewButton);
+		buttonSignUP.setBounds(162, 211, 89, 23);
+		panel.add(buttonSignUP);
 		
 		JButton loginButton = new JButton("LOGIN");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String userUsername = txtUsername.getText();
-				String userPassword = String.valueOf(txtPassword.getPassword());
-				objUser.setUserUsername(userUsername);
-				objUser.setUserPassword(userPassword);
 				
+				loginMethod();
 			}
 		});
 		loginButton.setBounds(162, 172, 89, 23);
@@ -99,5 +107,29 @@ public class front {
 		JLabel lblNewLabel_2 = new JLabel("LOGIN");
 		lblNewLabel_2.setBounds(179, 28, 46, 14);
 		panel.add(lblNewLabel_2);
+	}
+	
+	public void loginMethod() {
+		
+		try {
+				String userUsername = txtUsername.getText();
+				String userPassword = String.valueOf(txtPassword.getPassword());
+				objUserDAO.setUserUsername(userUsername);
+				objUserDAO.setUserPassword(userPassword);
+				
+				ResultSet rsDAOuser = objDAOuser.authUser(objUserDAO);
+				if (rsDAOuser.next())
+				{
+					JOptionPane.showMessageDialog(null, "Login sucessfull.");
+					System.out.println(rsDAOuser);
+				} else {
+					JOptionPane.showMessageDialog(null, "Username or password wrong.");
+			}
+			
+	
+			
+		} catch (SQLException error) {
+			JOptionPane.showMessageDialog(null, "front"+error);
+		}
 	}
 }
