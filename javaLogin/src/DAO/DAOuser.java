@@ -12,12 +12,14 @@ import DTO.UserDTO;
 
 public class DAOuser {
 
-	Connection connector = null;
+	
+	Connection connector = new DAOconnector().DBConnection();
+
 	ArrayList<UserDTO> list = new ArrayList<>();
+	
 	public ResultSet authUser(UserDTO objUserDTO) 
 	{
 		
-		connector = new DAOconnector().DBConnection();
 		
 		try {
 			String sql = "Select * from dblogin where username = ? and pass = ? ";
@@ -36,7 +38,6 @@ public class DAOuser {
 	}
 		
 		public void registerUser(UserDTO objUserDTO) {
-			connector = new DAOconnector().DBConnection();
 			
 			try {
 				String sql = "insert into dblogin(username,pass) values(?,?)";
@@ -53,9 +54,23 @@ public class DAOuser {
 			}
 		}
 			
+		public void deleteUser(UserDTO objUserDTO) {
+			
+			try {
+				String sql = "delete from dblogin where id = ?";
+				PreparedStatement pstm = connector.prepareStatement(sql);
+				pstm.setString(1, String.valueOf(objUserDTO.getIdUser()));
+				pstm.execute();
+				pstm.close();
+				JOptionPane.showMessageDialog(null, "User deleted!");
+			
+			}
+			catch(SQLException error) {
+				JOptionPane.showMessageDialog(null, "DAOUSER"+error);
+			}
+		}
 		
 		public void changePassword(UserDTO objUserDTO) {
-			connector = new DAOconnector().DBConnection();
 			
 			try {
 				String sql = "update dblogin set pass = ? where username = ?";
@@ -75,8 +90,7 @@ public class DAOuser {
 		
 		public 	ArrayList<UserDTO> listAllUsers() {
 			String sql = "Select * from dblogin";
-			connector = new DAOconnector().DBConnection();
-
+			list.clear();
 			
 			try {
 				PreparedStatement pstm = connector.prepareStatement(sql);
