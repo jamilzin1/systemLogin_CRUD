@@ -45,7 +45,26 @@ public class DAOuser {
 				pstm.setString(2, objUserDTO.getUserPassword());
 				pstm.execute();
 				pstm.close();
-
+				JOptionPane.showMessageDialog(null, "Account created!");
+			
+			}
+			catch(SQLException error) {
+				JOptionPane.showMessageDialog(null, "DAOUSER"+error);
+			}
+		}
+			
+		
+		public void changePassword(UserDTO objUserDTO) {
+			connector = new DAOconnector().DBConnection();
+			
+			try {
+				String sql = "update dblogin set pass = ? where username = ?";
+				PreparedStatement pstm = connector.prepareStatement(sql);
+				pstm.setString(2, objUserDTO.getUserUsername());
+				pstm.setString(1, objUserDTO.getUserPassword());
+				pstm.execute();
+				pstm.close();
+				JOptionPane.showMessageDialog(null, "Password updated!");
 			
 			}
 			catch(SQLException error) {

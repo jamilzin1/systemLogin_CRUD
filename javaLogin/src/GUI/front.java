@@ -18,13 +18,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class front {
 
 	private JFrame frame;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
-	UserDTO objUserDAO = new UserDTO();
+	UserDTO objDTOuser = new UserDTO();
 	DAOuser objDAOuser = new DAOuser();
 
 	/**
@@ -82,7 +85,7 @@ public class front {
 				
 			}
 		});
-		buttonSignUP.setBounds(162, 211, 89, 23);
+		buttonSignUP.setBounds(162, 201, 89, 23);
 		panel.add(buttonSignUP);
 		
 		JButton loginButton = new JButton("LOGIN");
@@ -92,7 +95,7 @@ public class front {
 				loginMethod();
 			}
 		});
-		loginButton.setBounds(162, 172, 89, 23);
+		loginButton.setBounds(162, 167, 89, 23);
 		panel.add(loginButton);
 		
 		txtUsername = new JTextField();
@@ -107,17 +110,34 @@ public class front {
 		JLabel lblNewLabel_2 = new JLabel("LOGIN");
 		lblNewLabel_2.setBounds(179, 28, 46, 14);
 		panel.add(lblNewLabel_2);
+		
+		JButton btnChangePassword = new JButton("New Password");
+		btnChangePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updatePassword frame = new updatePassword();
+				frame.setVisible(true);
+			}
+		});
+		btnChangePassword.setBackground(new Color(240, 240, 240));
+		btnChangePassword.setBorderPainted(false);
+		btnChangePassword.setFocusPainted(false);
+		btnChangePassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnChangePassword.setBounds(150, 133, 111, 23);
+		btnChangePassword.setForeground(Color.BLUE);
+		
+		panel.add(btnChangePassword);
 	}
 	
+
 	public void loginMethod() {
 		
 		try {
 				String userUsername = txtUsername.getText();
 				String userPassword = String.valueOf(txtPassword.getPassword());
-				objUserDAO.setUserUsername(userUsername);
-				objUserDAO.setUserPassword(userPassword);
+				objDTOuser.setUserUsername(userUsername);
+				objDTOuser.setUserPassword(userPassword);
 				
-				ResultSet rsDAOuser = objDAOuser.authUser(objUserDAO);
+				ResultSet rsDAOuser = objDAOuser.authUser(objDTOuser);
 				if (rsDAOuser.next())
 				{
 					JOptionPane.showMessageDialog(null, "Login sucessfull.");

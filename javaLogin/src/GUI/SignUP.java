@@ -115,8 +115,8 @@ public class SignUP {
 					objUserDTO.setUserUsername(userUsername);
 					objUserDTO.setUserPassword(userPassword);
 					objDAOuser.registerUser(objUserDTO);
-					JOptionPane.showMessageDialog(null, "Account created!");
 					frame.dispose();
+					
 				}
 				else {JOptionPane.showMessageDialog(null, "Mismatch password");}
 					
