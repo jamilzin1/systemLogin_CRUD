@@ -54,11 +54,12 @@ public class updatePassword extends JFrame {
 	 * Create the frame.
 	 */
 	public updatePassword() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -129,4 +130,5 @@ public class updatePassword extends JFrame {
 			JOptionPane.showMessageDialog(null, "front"+error);
 		}
 	}
+	
 }

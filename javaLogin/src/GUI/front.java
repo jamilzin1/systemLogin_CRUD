@@ -60,7 +60,7 @@ public class front {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		frame.setResizable(false);
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
@@ -70,7 +70,7 @@ public class front {
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
-		lblNewLabel_1.setBounds(43, 117, 46, 14);
+		lblNewLabel_1.setBounds(43, 106, 46, 14);
 		panel.add(lblNewLabel_1);
 		
 		JButton buttonSignUP = new JButton("SIGN UP");
@@ -80,7 +80,6 @@ public class front {
 				
 				SignUP windowRegister = new SignUP();
 				windowRegister.frame.setVisible(true);
-				frame.dispose();
 				
 				
 			}
@@ -99,12 +98,12 @@ public class front {
 		panel.add(loginButton);
 		
 		txtUsername = new JTextField();
-		txtUsername.setBounds(162, 78, 86, 20);
+		txtUsername.setBounds(162, 78, 89, 20);
 		panel.add(txtUsername);
 		txtUsername.setColumns(10);
 		
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(162, 114, 89, 20);
+		txtPassword.setBounds(162, 103, 89, 20);
 		panel.add(txtPassword);
 		
 		JLabel lblNewLabel_2 = new JLabel("LOGIN");
@@ -122,7 +121,7 @@ public class front {
 		btnChangePassword.setBorderPainted(false);
 		btnChangePassword.setFocusPainted(false);
 		btnChangePassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnChangePassword.setBounds(150, 133, 111, 23);
+		btnChangePassword.setBounds(151, 134, 111, 23);
 		btnChangePassword.setForeground(Color.BLUE);
 		
 		panel.add(btnChangePassword);
@@ -138,10 +137,14 @@ public class front {
 				objDTOuser.setUserPassword(userPassword);
 				
 				ResultSet rsDAOuser = objDAOuser.authUser(objDTOuser);
-				if (rsDAOuser.next())
+
+				 if (rsDAOuser.next())
 				{
 					JOptionPane.showMessageDialog(null, "Login sucessfull.");
-					System.out.println(rsDAOuser);
+						if (objDTOuser.getUserUsername().equals("admin"))
+						{
+						     new UsersList().setVisible(true);
+						}
 				} else {
 					JOptionPane.showMessageDialog(null, "Username or password wrong.");
 			}

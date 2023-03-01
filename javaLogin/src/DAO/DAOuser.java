@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+
 
 import DTO.UserDTO;
 
@@ -31,15 +34,17 @@ public class DAOuser {
 			return rs;
 		
 		}
-		catch(SQLException error) {
+		catch(Exception error) {
+
 			JOptionPane.showMessageDialog(null, "DAOUSER"+error);
 			return null;
 		}
 	}
 		
-		public void registerUser(UserDTO objUserDTO) {
+		public void registerUser(UserDTO objUserDTO)   {
 			
 			try {
+				
 				String sql = "insert into dblogin(username,pass) values(?,?)";
 				PreparedStatement pstm = connector.prepareStatement(sql);
 				pstm.setString(1, objUserDTO.getUserUsername());
@@ -49,8 +54,14 @@ public class DAOuser {
 				JOptionPane.showMessageDialog(null, "Account created!");
 			
 			}
-			catch(SQLException error) {
-				JOptionPane.showMessageDialog(null, "DAOUSER"+error);
+
+			
+			catch(Exception error) {
+				if(error.getCause() instanceof SQLIntegrityConstraintViolationException) {
+					JOptionPane.showMessageDialog(null, "helo"+error);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "register in DAO user"+error); }
 			}
 		}
 			
@@ -104,7 +115,7 @@ public class DAOuser {
 				}
 
 			} catch (SQLException error) {
-				// TODO: handle exception
+
 				JOptionPane.showMessageDialog(null, "DAOuser"+error);
 			}
 			return list;

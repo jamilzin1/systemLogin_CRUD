@@ -3,6 +3,7 @@ package GUI;
 import java.awt.EventQueue;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -57,8 +58,8 @@ public class SignUP {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setResizable(false);
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
@@ -105,7 +106,7 @@ public class SignUP {
 	
 	
 	
-	public void registerMethod() {
+	public void registerMethod(){
 		
 		try {
 				if(String.valueOf(txtPassword.getPassword()).equals(String.valueOf(txtPassword1.getPassword())))
@@ -122,7 +123,8 @@ public class SignUP {
 					
 			
 		} catch (Exception error) {
-			JOptionPane.showMessageDialog(null, "front"+error);
+			JOptionPane.showMessageDialog(null, "signup"+error);
 		}
+
 	}
 }
